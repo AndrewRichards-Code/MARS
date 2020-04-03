@@ -2,31 +2,25 @@
 
 using namespace mars;
 
-//Constructs a Mat4 of 0.
 Mat4::Mat4()
 	:a(0), b(0), c(0), d(0), e(0), f(0), g(0), h(0),
 	i(0), j(0), k(0), l(0), m(0), n(0), o(0), p(0) {}
 
-//Constructs a Mat4 taking a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p.
 Mat4::Mat4(float a, float b, float c, float d, float e, float f, float g, float h,
 	float i, float j, float k, float l, float m, float n, float o, float p)
 	: a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h),
 	i(i), j(j), k(k), l(l), m(m), n(n), o(o), p(p) {}
 
-//Constructs a Mat4 from four Vec4s.
 Mat4::Mat4(const Vec4& a, const Vec4& b, const Vec4& c, const Vec4& d)
 	: a(a.x), b(a.y), c(a.z), d(a.w), e(b.x), f(b.y), g(b.z), h(b.w),
 	i(c.x), j(c.y), k(c.z), l(c.w), m(d.x), n(d.y), o(d.z), p(d.w) {}
 
-//Constructs a Mat4 where the diagonal is the input.
 Mat4::Mat4(float diagonal)
 	: a(diagonal), b(0), c(0), d(0), e(0), f(diagonal), g(0), h(0),
 	i(0), j(0), k(diagonal), l(0), m(0), n(0), o(0), p(diagonal) {}
 
-//Destructs the Mat4.
 Mat4::~Mat4() {}
 
-//Calcuates determinant, and returns the sum of the vector components.
 float Mat4::Det()
 {
 	float temp_i = a * Mat3(f, g, h, j, k, l, n, o, p).Det();
@@ -36,7 +30,6 @@ float Mat4::Det()
 	return temp_i - temp_j + temp_k - temp_l;
 }
 
-//Calcuates determinant, and returns as a vector.
 Vec4 Mat4::VecDet()
 {
 	float temp_i = +a * Mat3(f, g, h, j, k, l, n, o, p).Det();
@@ -46,7 +39,6 @@ Vec4 Mat4::VecDet()
 	return Vec4(temp_i, temp_j, temp_k, temp_l);
 }
 
-//Swaps the Column/Row Major Ording of the current matrix object.
 void Mat4::Transpose()
 {
 	a = a;
@@ -76,14 +68,12 @@ void Mat4::Transpose()
 	o = temp_l;
 }
 
-//Swaps the Column/Row Major Ording of the input matrix object, return to a new Mat4 object.
 Mat4 Mat4::Transpose(const Mat4& input)
 {
 	return Mat4(input.a, input.e, input.i, input.m, input.b, input.f, input.j, input.n,
 		input.c, input.g, input.k, input.o, input.d, input.h, input.l, input.p);
 }
 
-//Inverts the current matrix object.
 void Mat4::Inverse()
 {
 	float det = this->Det();
@@ -115,7 +105,6 @@ void Mat4::Inverse()
 	*this = result;
 }
 
-//Inverts the input matrix object, return to a new Mat4 object.
 Mat4 Mat4::Inverse(const Mat4& input)
 {
 	Mat4 temp = input;
@@ -148,13 +137,11 @@ Mat4 Mat4::Inverse(const Mat4& input)
 	return result;
 }
 
-//Constructs a Mat4 where the diagonal is 1.
 Mat4 Mat4::Identity()
 {
 	return Mat4(1);
 }
 
-//Constructs a orthographic matrix (Mat4).
 Mat4 Mat4::Orthographic(float left, float right, float bottom, float top, float near, float far)
 {
 	return Mat4((2 / (right - left)), (0), (0), (-(right + left) / (right - left)),
@@ -162,7 +149,7 @@ Mat4 Mat4::Orthographic(float left, float right, float bottom, float top, float 
 		           (0), (0), (-2 / (far - near)), (-(far + near) / (far - near)),
 		           (0), (0), (0),(1));
 }
-//Constructs a perspective matrix (Mat4). Input fov is in radians.
+
 Mat4 Mat4::Perspective(double fov, float aspectRatio, float near, float far)
 {
 	return Mat4 ((1 / (aspectRatio * static_cast<float>(tan(fov / 2)))), (0), (0), (0),
@@ -171,7 +158,6 @@ Mat4 Mat4::Perspective(double fov, float aspectRatio, float near, float far)
 				   (0), (0), (-1), (0));
 }
 
-//Constructs a translation matrix (Mat4).
 Mat4 Mat4::Translation(const Vec3& translation)
 {
 	Mat4 result(1);
@@ -181,7 +167,6 @@ Mat4 Mat4::Translation(const Vec3& translation)
 	return result;
 }
 
-//Constructs a rotation matrix (Mat4). Input angle is in radians.
 Mat4 Mat4::Rotation(double angle, const Vec3& axis)
 {
 	Mat4 result(1);
@@ -216,7 +201,6 @@ Mat4 Mat4::Rotation(double angle, const Vec3& axis)
 	return result;
 }
 
-//Constructs a scale matrix (Mat4).
 Mat4 Mat4::Scale(const Vec3& scale)
 {
 	Mat4 result(1);

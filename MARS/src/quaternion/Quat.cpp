@@ -2,15 +2,12 @@
 
 using namespace mars;
 
-//Constructs a Quat of 0.
 Quat::Quat()
 	:s(0), i(0), j(0), k(0) {}
 
-//Constructs a Quat taking s, i, j, k.
 Quat::Quat(float s, float i, float j, float k)
 	:s(s), i(i), j(j), k(k)	{}
 
-//Constructs a Quat taking angle, and an axis.
 Quat::Quat(float angle, const Vec3& axis)
 {
 	Vec3 scaledAxis = axis * sinf(angle / 2.0f);
@@ -20,26 +17,23 @@ Quat::Quat(float angle, const Vec3& axis)
 	k = scaledAxis.z;
 	Normalise();
 }
-//Constructs a Quat taking Vec4.
+
 Quat::Quat(const Vec4& sijk)
 	: s(sijk.x), i(sijk.y), j(sijk.z), k(sijk.w) {}
 
-//Destructs the Mat4.
+
 Quat::~Quat() {}
 
-//Finds the conjugate of the current object.
 Quat Quat::Conjugate() 
 {
 	return Quat(this->s, -this->i, -this->j, -this->k);
 }
 
-//Finds the conjugate of the input object.
 Quat Quat::Conjugate(const Quat& other)
 {
 	return Quat(other.s, -other.i, -other.j, -other.k);
 }
 
-//Normalises the current object.
 Quat Quat::Normalise()
 {
 	float length = sqrt(s * s + i * i + j * j + k * k);
@@ -50,7 +44,6 @@ Quat Quat::Normalise()
 	return *this;
 }
 
-//Normalises the input object.
 Quat Quat::Normalise(const Quat& input)
 {
 	float length = sqrt(input.s * input.s + input.i * input.i + input.j * input.j + input.k * input.k);
@@ -68,7 +61,6 @@ Quat Quat::Normalise(const Quat& input)
 	return output;
 }
 
-//Converts a Quat and a Vec3.
 Vec3 Quat::ToVec3(const Quat& other)
 {
 	Vec3 result = Vec3(other.i, other.j, other.k);
@@ -80,7 +72,6 @@ Vec3 Quat::ToVec3(const Quat& other)
 	return result;
 }
 
-//Converts the current object to a new Mat4.
 Mat4 Quat::ToMat4()
 {
 	/*return Mat4(+s, -i, -j, -k,
@@ -95,7 +86,6 @@ Mat4 Quat::ToMat4()
 		0, 0, 0, 1);
 }
 
-//Converts the input object to a new Mat4.
 Mat4 Quat::ToMat4(const Quat& input)
 {
 	/*return Mat4(+input.s, -input.i, -input.j, -input.k,
@@ -111,20 +101,35 @@ Mat4 Quat::ToMat4(const Quat& input)
 		0, 0, 0, 1);
 }
 
-//Adds two Quats.
-Quat Quat::operator+(const Quat& other) const
+Quat Quat::operator+ (const Quat& other) const
 {
 	return Quat(s + other.s, i + other.i, j + other.j, k + other.k);
 }
 
-//Subtracts two Quats.
-Quat Quat::operator-(const Quat& other) const
+Quat& Quat::operator+=(const Quat& other)
+{
+	s += other.s;
+	i += other.i;
+	j += other.j;
+	k += other.k;
+	return *this;
+}
+
+Quat Quat::operator- (const Quat& other) const
 {
 	return Quat(s - other.s, i - other.i, j - other.j, k - other.k);
 }
 
-//Multiples two Quats.
-Quat Quat::operator*(const Quat& other) const
+Quat& Quat::operator-= (const Quat& other)
+{
+	s -= other.s;
+	i -= other.i;
+	j -= other.j;
+	k -= other.k;
+	return *this;
+}
+
+Quat Quat::operator* (const Quat& other) const
 {
 	return Quat(
 		((s * other.s) - (i * other.i) - (j * other.j) - (k * other.k)),
@@ -134,8 +139,13 @@ Quat Quat::operator*(const Quat& other) const
 	);										   
 }
 
-//Multiples Quat and a Vec3.
-Quat Quat::operator*(const Vec3& other) const
+Quat& Quat::operator*= (const Quat& other)
+{
+	*this = *this * other;
+	return *this;
+}
+
+Quat Quat::operator* (const Vec3& other) const
 {
 	return Quat(
 		(- (i * other.x) - (j * other.y) - (k * other.z)),
@@ -145,8 +155,13 @@ Quat Quat::operator*(const Vec3& other) const
 	);
 }
 
-//Compare the Quat with another Quat. If it's equal, it'll return true.
-bool Quat::operator==(const Quat& other) const
+Quat& Quat::operator*= (const Vec3& other)
+{
+	*this = *this * other;
+	return *this;
+}
+
+bool Quat::operator== (const Quat& other) const
 {
 	if (s == other.s && i == other.i && j == other.j && k == other.k)
 		return true;
@@ -154,8 +169,7 @@ bool Quat::operator==(const Quat& other) const
 		return false;
 }
 
-//Compare the Quat with another Quat. If it's equal, it'll return true.
-bool Quat::operator!=(const Quat& other) const
+bool Quat::operator!= (const Quat& other) const
 {
 	if (s != other.s && i != other.i && j != other.j && k != other.k)
 		return true;

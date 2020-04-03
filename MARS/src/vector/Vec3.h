@@ -15,47 +15,62 @@ namespace mars
 			struct { float s, t, p; };
 		};
 
+		//Constructs a Vec3 of 0.
 		Vec3();
+		//Constructs a Vec3 taking x, y, z.
 		Vec3(float x, float y, float z);
+		//Constructs a Vec3 from another Vec3.
 		Vec3(const Vec3 & copy);
+		//Constructs a Vec3 from the struct CoordCart3D.
 		Vec3(const CoordCart3D& other);
+		//Constructs a Vec3 from the struct CoordSph.
 		Vec3(const CoordSph& other);
 
+		//Destructs the Vec3.
 		~Vec3();
 
+		//Takes the dot product of the current object and another Vec3.
 		float Dot(const Vec3& other);
+		//Takes the dot product of two Vec3s.
 		static float Dot(const Vec3& a, const Vec3& b);
-		
+
+		//Takes the cross product of the current object and another Vec3. RHRule.
 		Vec3 Cross(const Vec3& other);
+		//Takes the cross product of two Vec3s. RHRule.
 		static Vec3 Cross(const Vec3& a, const Vec3& b);
-		
+
+		//Normalise the current object.
 		Vec3 Normalise();
+		//Normalise the input object and return a new Vec3.
 		static Vec3 Normalise(const Vec3& other);
 
+		//Returns the length of the Vector.
 		float Length();
 
+		//Rotates the current object via quaternions and returns a new Vec3.
+		Vec3 RotateQuat(float theta, const Vec3& axis);
+		//Rotates the current object via quaternions and returns a new Vec3.
+		Vec3 RotateQuat(const Quat& q);
 
-		//Angles betweem vectors and normals
-
-		//ROTATIONS
-		//Rotation matrix
-		Vec3 RotByMat(const Mat3& input);
-		//Euler axis and angle (rotation vector)
-		Vec3 RotVec(const Vec3& axis, float theta);
-		//Euler rotations
-		Vec3 RotEul(float x_theta, float y_theta, float z_theta);
-		//Quaternions
-		Vec3 RotQuat(float theta, const Vec3& axis);
-		Vec3 RotQuat(const Quat& q);
-
-		//Equalivence operator==
+		//Adds two Vec3s.
 		Vec3 operator+ (const Vec3& other) const;
+		//Adds a Vec3 to the current object.
+		Vec3& operator+= (const Vec3& other);
+		//Subtracts two Vec3s.
 		Vec3 operator- (const Vec3& other) const;
+		//Subtracts a Vec3 from the current object.
+		Vec3& operator-= (const Vec3& other);
+		//Scales the Vec3 by the scaler a. The scaler go on the rhs of the object.
 		Vec3 operator* (float a) const;
+		//Scales the current object by the scaler a. The scaler go on the rhs of the object.
+		Vec3& operator*= (float a);
 
+		//Compare the Vec3 with another Vec3. If it's equal, it'll return true.
 		bool operator== (const Vec3& other) const;
+		//Compare the Vec3 with another Vec3. If it's not equal, it'll return true.
 		bool operator!= (const Vec3& other) const;
 
+		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Vec3& output)
 		{
 			stream << output.x << ", " << output.y << ", " << output.z;
