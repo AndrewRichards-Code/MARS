@@ -92,5 +92,8 @@
     <ClInclude Include="src\mars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\mars_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

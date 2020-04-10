@@ -157,6 +157,7 @@
     <ClInclude Include="src\conversion\ConvertCart2DandPolarCoord.h" />
     <ClInclude Include="src\conversion\ConvertCart3DandSphCoord.h" />
     <ClInclude Include="src\conversion\ConvertDegAndRad.h" />
+    <ClInclude Include="src\mars_common.h" />
     <ClInclude Include="src\MatMatMultiplication.h" />
     <ClInclude Include="src\matrix\Mat2.h" />
     <ClInclude Include="src\matrix\Mat3.h" />
