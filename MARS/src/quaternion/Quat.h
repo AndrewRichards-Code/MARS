@@ -70,5 +70,8 @@ namespace mars
 			
 			return stream;
 		}
+
+		inline const float* const GetData() const { return &s; }
+		constexpr static inline size_t GetSize() { return sizeof(Quat); }
 	};
 }

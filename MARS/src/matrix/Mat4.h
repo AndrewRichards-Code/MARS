@@ -52,6 +52,11 @@ namespace mars
 		//Constructs a scale matrix (Mat4).
 		static Mat4 Scale(const Vec3& scale);
 
+		//Multiplies a Vec4 input by the current matrix transform.
+		inline Vec4 operator*(const Vec4& input) const;
+		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 transform.
+		inline Mat4 operator*(const Mat4& transform) const;
+
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat4 & output)
 		{
@@ -61,5 +66,8 @@ namespace mars
 			stream << output.m << ", " << output.n << ", " << output.o << ", " << output.p;
 			return stream;
 		}
+
+		inline const float* const GetData() const { return &a; }
+		constexpr static inline size_t GetSize() { return sizeof(Mat4); }
 	};
 }

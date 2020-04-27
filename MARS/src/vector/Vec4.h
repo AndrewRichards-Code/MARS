@@ -63,5 +63,8 @@ namespace mars
 			stream << output.x << ", " << output.y << ", " << output.z << ", " << output.w;
 			return stream;
 		}
+
+		inline const float* const GetData() const { return &x; }
+		constexpr static inline size_t GetSize() { return sizeof(Vec4); }
 	};
 }

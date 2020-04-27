@@ -158,11 +158,9 @@
     <ClInclude Include="src\conversion\ConvertCart3DandSphCoord.h" />
     <ClInclude Include="src\conversion\ConvertDegAndRad.h" />
     <ClInclude Include="src\mars_common.h" />
-    <ClInclude Include="src\MatMatMultiplication.h" />
     <ClInclude Include="src\matrix\Mat2.h" />
     <ClInclude Include="src\matrix\Mat3.h" />
     <ClInclude Include="src\matrix\Mat4.h" />
-    <ClInclude Include="src\MatVecMultiplication.h" />
     <ClInclude Include="src\quaternion\Quat.h" />
     <ClInclude Include="src\vector\Vec2.h" />
     <ClInclude Include="src\vector\Vec3.h" />

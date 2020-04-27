@@ -60,3 +60,24 @@ Mat2 Mat2::Inverse(const Mat2& input)
 
 	return Mat2((input.d) / det, (-input.b) / det, (-input.c) / det, (input.a) / det);
 }
+
+inline Vec2 Mat2::operator*(const Vec2& input) const
+{
+	float x = input.x;
+	float y = input.y;
+	Vec2 transform_i(a, c);
+	Vec2 transform_j(b, d);
+	Vec2 output(transform_i * x + transform_j * y);
+	return output;
+}
+
+inline Mat2 Mat2::operator*(const Mat2& transform) const
+{
+	Vec2 input_i(a, c);
+	Vec2 input_j(b, d);
+	Vec2 output_i = transform * input_i;
+	Vec2 output_j = transform * input_j;
+	Mat2 output(output_i, output_j);
+	output.Transpose();
+	return output;
+}

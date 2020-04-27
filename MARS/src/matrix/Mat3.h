@@ -34,6 +34,11 @@ namespace mars
 		//Inverts the input matrix object, return to a new Mat3 object.
 		Mat3 Inverse(const Mat3& input);
 
+		//Multiplies a Vec3 input by the current matrix transform.
+		inline Vec3 operator*(const Vec3& input) const;
+		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 transform.
+		inline Mat3 operator*(const Mat3& transform) const;
+
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat3& output)
 		{
@@ -42,5 +47,8 @@ namespace mars
 			stream << output.g << ", " << output.h << ", " << output.i;
 			return stream;
 		}
+
+		inline const float* const GetData() const { return &a; }
+		constexpr static inline size_t GetSize() { return sizeof(Mat3); }
 	};
 }

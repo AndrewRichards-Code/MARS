@@ -95,3 +95,28 @@ Mat3 Mat3::Inverse(const Mat3& input)
 	);
 	return result;
 }
+
+inline Vec3 Mat3::operator*(const Vec3& input) const
+{
+	float x = input.x;
+	float y = input.y;
+	float z = input.z;
+	Vec3 transform_i(a, d, g);
+	Vec3 transform_j(b, e, h);
+	Vec3 transform_k(c, f, i);
+	Vec3 output(transform_i * x + transform_j * y + transform_k * z);
+	return output;
+}
+
+inline Mat3 Mat3::operator*(const Mat3& transform) const
+{
+	Vec3 input_i(a, d, g);
+	Vec3 input_j(b, e, h);
+	Vec3 input_k(c, f, i);
+	Vec3 output_i = transform * input_i;
+	Vec3 output_j = transform * input_j;
+	Vec3 output_k = transform * input_k;
+	Mat3 output(output_i, output_j, output_k);
+	output.Transpose();
+	return output;
+}

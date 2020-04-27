@@ -209,3 +209,32 @@ Mat4 Mat4::Scale(const Vec3& scale)
 	result.k = scale.z;
 	return result;
 }
+
+inline Vec4 Mat4::operator*(const Vec4& input) const
+{
+	float x = input.x;
+	float y = input.y;
+	float z = input.z;
+	float w = input.w;
+	Vec4 transform_i(a, e, i, m);
+	Vec4 transform_j(b, f, j, n);
+	Vec4 transform_k(c, g, k, o);
+	Vec4 transform_l(d, h, l, p);
+	Vec4 output(transform_i * x + transform_j * y + transform_k * z + transform_l * w);
+	return output;
+}
+
+inline Mat4 Mat4::operator*(const Mat4& transform) const
+{
+	Vec4 input_i(a, e, i, m);
+	Vec4 input_j(b, f, j, n);
+	Vec4 input_k(c, g, k, o);
+	Vec4 input_l(d, h, l, p);
+	Vec4 output_i = transform * input_i;
+	Vec4 output_j = transform * input_j;
+	Vec4 output_k = transform * input_k;
+	Vec4 output_l = transform * input_l;
+	Mat4 output(output_i, output_j, output_k, output_l);
+	output.Transpose();
+	return output;
+}
