@@ -53,9 +53,11 @@ namespace mars
 		static Mat4 Scale(const Vec3& scale);
 
 		//Multiplies a Vec4 input by the current matrix transform.
-		inline Vec4 operator*(const Vec4& input) const;
+		Vec4 operator*(const Vec4& input) const;
 		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 transform.
-		inline Mat4 operator*(const Mat4& transform) const;
+		Mat4 operator*(const Mat4& transform) const;
+		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 transform.
+		Mat4& operator*=(const Mat4& transform);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat4 & output)

@@ -35,9 +35,11 @@ namespace mars
 		Mat3 Inverse(const Mat3& input);
 
 		//Multiplies a Vec3 input by the current matrix transform.
-		inline Vec3 operator*(const Vec3& input) const;
+		Vec3 operator*(const Vec3& input) const;
 		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 transform.
-		inline Mat3 operator*(const Mat3& transform) const;
+		Mat3 operator*(const Mat3& transform) const;
+		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 transform.
+		Mat3& operator*=(const Mat3& transform);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat3& output)

@@ -61,7 +61,7 @@ Mat2 Mat2::Inverse(const Mat2& input)
 	return Mat2((input.d) / det, (-input.b) / det, (-input.c) / det, (input.a) / det);
 }
 
-inline Vec2 Mat2::operator*(const Vec2& input) const
+Vec2 Mat2::operator*(const Vec2& input) const
 {
 	float x = input.x;
 	float y = input.y;
@@ -71,7 +71,7 @@ inline Vec2 Mat2::operator*(const Vec2& input) const
 	return output;
 }
 
-inline Mat2 Mat2::operator*(const Mat2& transform) const
+Mat2 Mat2::operator*(const Mat2& transform) const
 {
 	Vec2 input_i(a, c);
 	Vec2 input_j(b, d);
@@ -80,4 +80,15 @@ inline Mat2 Mat2::operator*(const Mat2& transform) const
 	Mat2 output(output_i, output_j);
 	output.Transpose();
 	return output;
+}
+
+Mat2& Mat2::operator*=(const Mat2& transform)
+{
+	Vec2 input_i(a, c);
+	Vec2 input_j(b, d);
+	Vec2 output_i = transform * input_i;
+	Vec2 output_j = transform * input_j;
+	*this = Mat2(output_i, output_j);
+	this->Transpose();
+	return *this;
 }

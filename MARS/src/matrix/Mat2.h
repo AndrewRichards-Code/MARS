@@ -37,9 +37,11 @@ namespace mars
 		Mat2 Inverse(const Mat2& input);
 
 		//Multiplies a Vec2 input by the current matrix transform.
-		inline Vec2 operator*(const Vec2& input) const;
+		Vec2 operator*(const Vec2& input) const;
 		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 transform.
-		inline Mat2 operator*(const Mat2& transform) const;
+		Mat2 operator*(const Mat2& transform) const;
+		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 transform.
+		Mat2& operator*=(const Mat2& transform);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat2& output)

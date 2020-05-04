@@ -210,7 +210,7 @@ Mat4 Mat4::Scale(const Vec3& scale)
 	return result;
 }
 
-inline Vec4 Mat4::operator*(const Vec4& input) const
+Vec4 Mat4::operator*(const Vec4& input) const
 {
 	float x = input.x;
 	float y = input.y;
@@ -224,7 +224,7 @@ inline Vec4 Mat4::operator*(const Vec4& input) const
 	return output;
 }
 
-inline Mat4 Mat4::operator*(const Mat4& transform) const
+Mat4 Mat4::operator*(const Mat4& transform) const
 {
 	Vec4 input_i(a, e, i, m);
 	Vec4 input_j(b, f, j, n);
@@ -237,4 +237,19 @@ inline Mat4 Mat4::operator*(const Mat4& transform) const
 	Mat4 output(output_i, output_j, output_k, output_l);
 	output.Transpose();
 	return output;
+}
+
+Mat4& Mat4::operator*=(const Mat4& transform)
+{
+	Vec4 input_i(a, e, i, m);
+	Vec4 input_j(b, f, j, n);
+	Vec4 input_k(c, g, k, o);
+	Vec4 input_l(d, h, l, p);
+	Vec4 output_i = transform * input_i;
+	Vec4 output_j = transform * input_j;
+	Vec4 output_k = transform * input_k;
+	Vec4 output_l = transform * input_l;
+	*this = Mat4(output_i, output_j, output_k, output_l);
+	this->Transpose();
+	return *this;
 }
