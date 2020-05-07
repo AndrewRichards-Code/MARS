@@ -224,32 +224,23 @@ Vec4 Mat4::operator*(const Vec4& input) const
 	return output;
 }
 
-Mat4 Mat4::operator*(const Mat4& transform) const
+Mat4 Mat4::operator*(const Mat4& input) const
 {
-	Vec4 input_i(a, e, i, m);
-	Vec4 input_j(b, f, j, n);
-	Vec4 input_k(c, g, k, o);
-	Vec4 input_l(d, h, l, p);
-	Vec4 output_i = transform * input_i;
-	Vec4 output_j = transform * input_j;
-	Vec4 output_k = transform * input_k;
-	Vec4 output_l = transform * input_l;
+	Vec4 input_i(input.a, input.e, input.i, input.m);
+	Vec4 input_j(input.b, input.f, input.j, input.n);
+	Vec4 input_k(input.c, input.g, input.k, input.o);
+	Vec4 input_l(input.d, input.h, input.l, input.p);
+	Vec4 output_i = *this * input_i;
+	Vec4 output_j = *this * input_j;
+	Vec4 output_k = *this * input_k;
+	Vec4 output_l = *this * input_l;
 	Mat4 output(output_i, output_j, output_k, output_l);
 	output.Transpose();
 	return output;
 }
 
-Mat4& Mat4::operator*=(const Mat4& transform)
+Mat4& Mat4::operator*=(const Mat4& input)
 {
-	Vec4 input_i(a, e, i, m);
-	Vec4 input_j(b, f, j, n);
-	Vec4 input_k(c, g, k, o);
-	Vec4 input_l(d, h, l, p);
-	Vec4 output_i = transform * input_i;
-	Vec4 output_j = transform * input_j;
-	Vec4 output_k = transform * input_k;
-	Vec4 output_l = transform * input_l;
-	*this = Mat4(output_i, output_j, output_k, output_l);
-	this->Transpose();
+	*this = *this * input;
 	return *this;
 }

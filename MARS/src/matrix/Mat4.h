@@ -54,10 +54,10 @@ namespace mars
 
 		//Multiplies a Vec4 input by the current matrix transform.
 		Vec4 operator*(const Vec4& input) const;
-		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 transform.
-		Mat4 operator*(const Mat4& transform) const;
-		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 transform.
-		Mat4& operator*=(const Mat4& transform);
+		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 input.
+		Mat4 operator*(const Mat4& input) const;
+		//Multiplies, or creates the composition of, the current Mat4 by a Mat4 input.
+		Mat4& operator*=(const Mat4& input);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat4 & output)

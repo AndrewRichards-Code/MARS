@@ -38,10 +38,10 @@ namespace mars
 
 		//Multiplies a Vec2 input by the current matrix transform.
 		Vec2 operator*(const Vec2& input) const;
-		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 transform.
-		Mat2 operator*(const Mat2& transform) const;
-		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 transform.
-		Mat2& operator*=(const Mat2& transform);
+		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 input.
+		Mat2 operator*(const Mat2& input) const;
+		//Multiplies, or creates the composition of, the current Mat2 by a Mat2 input.
+		Mat2& operator*=(const Mat2& input);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat2& output)

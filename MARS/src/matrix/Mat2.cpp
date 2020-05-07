@@ -71,24 +71,19 @@ Vec2 Mat2::operator*(const Vec2& input) const
 	return output;
 }
 
-Mat2 Mat2::operator*(const Mat2& transform) const
+Mat2 Mat2::operator*(const Mat2& input) const
 {
-	Vec2 input_i(a, c);
-	Vec2 input_j(b, d);
-	Vec2 output_i = transform * input_i;
-	Vec2 output_j = transform * input_j;
+	Vec2 input_i(input.a, input.c);
+	Vec2 input_j(input.b, input.d);
+	Vec2 output_i = *this * input_i;
+	Vec2 output_j = *this * input_j;
 	Mat2 output(output_i, output_j);
 	output.Transpose();
 	return output;
 }
 
-Mat2& Mat2::operator*=(const Mat2& transform)
+Mat2& Mat2::operator*=(const Mat2& input)
 {
-	Vec2 input_i(a, c);
-	Vec2 input_j(b, d);
-	Vec2 output_i = transform * input_i;
-	Vec2 output_j = transform * input_j;
-	*this = Mat2(output_i, output_j);
-	this->Transpose();
+	*this = *this * input;
 	return *this;
 }

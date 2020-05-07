@@ -108,28 +108,21 @@ Vec3 Mat3::operator*(const Vec3& input) const
 	return output;
 }
 
-Mat3 Mat3::operator*(const Mat3& transform) const
+Mat3 Mat3::operator*(const Mat3& input) const
 {
-	Vec3 input_i(a, d, g);
-	Vec3 input_j(b, e, h);
-	Vec3 input_k(c, f, i);
-	Vec3 output_i = transform * input_i;
-	Vec3 output_j = transform * input_j;
-	Vec3 output_k = transform * input_k;
+	Vec3 input_i(input.a, input.d, input.g);
+	Vec3 input_j(input.b, input.e, input.h);
+	Vec3 input_k(input.c, input.f, input.i);
+	Vec3 output_i = *this * input_i;
+	Vec3 output_j = *this * input_j;
+	Vec3 output_k = *this * input_k;
 	Mat3 output(output_i, output_j, output_k);
 	output.Transpose();
 	return output;
 }
 
-Mat3& Mat3::operator*=(const Mat3& transform)
+Mat3& Mat3::operator*=(const Mat3& input)
 {
-	Vec3 input_i(a, d, g);
-	Vec3 input_j(b, e, h);
-	Vec3 input_k(c, f, i);
-	Vec3 output_i = transform * input_i;
-	Vec3 output_j = transform * input_j;
-	Vec3 output_k = transform * input_k;
-	*this = Mat3(output_i, output_j, output_k);
-	this->Transpose();
+	*this = *this * input;
 	return *this;
 }

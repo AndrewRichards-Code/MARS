@@ -36,10 +36,10 @@ namespace mars
 
 		//Multiplies a Vec3 input by the current matrix transform.
 		Vec3 operator*(const Vec3& input) const;
-		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 transform.
-		Mat3 operator*(const Mat3& transform) const;
-		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 transform.
-		Mat3& operator*=(const Mat3& transform);
+		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 input.
+		Mat3 operator*(const Mat3& input) const;
+		//Multiplies, or creates the composition of, the current Mat3 by a Mat3 input.
+		Mat3& operator*=(const Mat3& input);
 
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat3& output)
