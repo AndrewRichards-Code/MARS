@@ -11,9 +11,19 @@ namespace mars
 		return angle * pi / 180.0;
 	}
 
+	inline float DegToRad(float angle)
+	{
+		return angle * static_cast<float>(pi) / 180.0f;
+	}
+
 	//Coverts radians to degrees.
 	inline double RadToDeg(double angle)
 	{
 		return angle * 180.0 / pi;
+	}
+
+	inline float RadToDeg(float angle)
+	{
+		return angle * 180.0f / static_cast<float>(pi);
 	}
 }
