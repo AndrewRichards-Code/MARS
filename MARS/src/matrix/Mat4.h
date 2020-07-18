@@ -62,10 +62,12 @@ namespace mars
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Mat4 & output)
 		{
+			SetOstream(stream);
 			stream << output.a << ", " << output.b << ", " << output.c << ", " << output.d << std::endl;
 			stream << output.e << ", " << output.f << ", " << output.g << ", " << output.h << std::endl;
 			stream << output.i << ", " << output.j << ", " << output.k << ", " << output.l << std::endl;
 			stream << output.m << ", " << output.n << ", " << output.o << ", " << output.p;
+			ResetOstream(stream);
 			return stream;
 		}
 

@@ -9,14 +9,14 @@ namespace mars
 	class Quat
 	{
 	public:
-		float s, i, j, k; 
+		double s, i, j, k; 
 
 		//Constructs a Quat of 0.
 		Quat();
 		//Constructs a Quat taking s, i, j, k.
-		Quat(float s, float i, float j, float k);
+		Quat(double s, double i, double j, double k);
 		//Constructs a Quat taking angle, and an axis.
-		Quat(float angle, const Vec3& axis);
+		Quat(double angle, const Vec3& axis);
 		//Constructs a Quat taking Vec4.
 		Quat(const Vec4& sijk);
 
@@ -34,8 +34,11 @@ namespace mars
 		//Normalises the input object.
 		static Quat Normalise(const Quat& input);
 
-		//Converts a Quat and a Vec3.
+		//Converts the current object to a new Vec3.
+		Vec3 ToVec3();
+		//Converts the input object to a new Vec3.
 		static Vec3 ToVec3(const Quat & other);
+
 		//Converts the current object to a new Mat4.
 		Mat4 ToMat4();
 		//Converts the input object to a new Mat4.
@@ -66,12 +69,13 @@ namespace mars
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Quat& output)
 		{
+			SetOstream(stream);
 			stream << output.s << ", " << output.i << "i, " << output.j << "j, " << output.k << "k" << std::endl;
-			
+			ResetOstream(stream);
 			return stream;
 		}
 
-		inline const float* const GetData() const { return &s; }
+		inline const double* const GetData() const { return &s; }
 		constexpr static inline size_t GetSize() { return sizeof(Quat); }
 	};
 }

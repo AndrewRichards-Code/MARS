@@ -5,13 +5,13 @@ using namespace mars;
 Quat::Quat()
 	:s(0), i(0), j(0), k(0) {}
 
-Quat::Quat(float s, float i, float j, float k)
+Quat::Quat(double s, double i, double j, double k)
 	:s(s), i(i), j(j), k(k)	{}
 
-Quat::Quat(float angle, const Vec3& axis)
+Quat::Quat(double angle, const Vec3& axis)
 {
-	Vec3 scaledAxis = axis * sinf(angle / 2.0f);
-	s = cosf(angle / 2.0f);
+	Vec3 scaledAxis = axis * sinf((float)angle / 2.0f);
+	s = cos(angle / 2.0);
 	i = scaledAxis.x;
 	j = scaledAxis.y;
 	k = scaledAxis.z;
@@ -36,7 +36,7 @@ Quat Quat::Conjugate(const Quat& other)
 
 Quat Quat::Normalise()
 {
-	float length = sqrt(s * s + i * i + j * j + k * k);
+	double length = sqrt(s * s + i * i + j * j + k * k);
 	s /= length;
 	i /= length;
 	j /= length;
@@ -46,11 +46,11 @@ Quat Quat::Normalise()
 
 Quat Quat::Normalise(const Quat& input)
 {
-	float length = sqrt(input.s * input.s + input.i * input.i + input.j * input.j + input.k * input.k);
-	float temp_s = input.s;
-	float temp_i = input.i;
-	float temp_j = input.j;
-	float temp_k = input.k;
+	double length = sqrt(input.s * input.s + input.i * input.i + input.j * input.j + input.k * input.k);
+	double temp_s = input.s;
+	double temp_i = input.i;
+	double temp_j = input.j;
+	double temp_k = input.k;
 	
 	Quat output (
 		temp_s /= length,
@@ -61,43 +61,43 @@ Quat Quat::Normalise(const Quat& input)
 	return output;
 }
 
+Vec3 Quat::ToVec3()
+{
+	return ToVec3(*this);
+}
+
 Vec3 Quat::ToVec3(const Quat& other)
 {
-	Vec3 result = Vec3(other.i, other.j, other.k);
-	float theta = 2 * acosf(other.s);
-	if (theta > 0)
+	Quat input = other; 
+	input.Normalise();
+	Vec3 result = Vec3((float)input.i, (float)input.j, (float)input.k).Normalise();
+	float theta = 2 * acosf((float)input.s);
+	float denom = sinf(theta / 2.0f);
+	if (denom > 0.001)
 	{
-		result * (1.0f / sinf(theta / 2.0f));
+		result *= (1.0f / sinf(theta / 2.0f));
 	}
 	return result;
 }
 
 Mat4 Quat::ToMat4()
 {
-	/*return Mat4(+s, -i, -j, -k,
-				+i, +s, -k, +j,
-				+j, +k, +s, -i,
-				+k, -j, +i, +s);*/
 	Normalise();
 	return Mat4(
-		(powf(s, 2) + powf(i, 2) - powf(j, 2) - powf(k, 2)), 2*(i*j - k*s), 2*(i*k + j*s), 0,
-		2*(i*j + k*s), (powf(s, 2) - powf(i, 2) + powf(j, 2) - powf(k, 2)), 2*(j*k - i*s), 0,
-		2*(i*k - j*s), 2*(j*k + i*s), (powf(s, 2) - powf(i, 2) - powf(j, 2) + powf(k, 2)), 0,
+		(float)(pow(s, 2) + pow(i, 2) - pow(j, 2) - pow(k, 2)), (float)(2*(i*j - k*s)), (float)(2*(i*k + j*s)), 0,
+		(float)(2*(i*j + k*s)), (float)(pow(s, 2) - pow(i, 2) + pow(j, 2) - pow(k, 2)), (float)(2*(j*k - i*s)), 0,
+		(float)(2*(i*k - j*s)), (float)(2*(j*k + i*s)), (float)(pow(s, 2) - pow(i, 2) - pow(j, 2) + pow(k, 2)), 0,
 		0, 0, 0, 1);
 }
 
 Mat4 Quat::ToMat4(const Quat& input)
 {
-	/*return Mat4(+input.s, -input.i, -input.j, -input.k,
-				+input.i, +input.s, -input.k, +input.j,
-				+input.j, +input.k, +input.s, -input.i,
-				+input.k, -input.j, +input.i, +input.s);*/
 	Quat temp = input;
 	temp.Normalise();
 	return Mat4(
-		(powf(temp.s, 2) + powf(temp.i, 2) - powf(temp.j, 2) - powf(temp.k, 2)), 2*(temp.i*temp.j - temp.k*temp.s), 2*(temp.i*temp.k + temp.j*temp.s), 0,
-		2*(temp.i*temp.j + temp.k*temp.s), (powf(temp.s, 2) - powf(temp.i, 2) + powf(temp.j, 2) - powf(temp.k, 2)), 2*(temp.j*temp.k - temp.i*temp.s), 0,
-		2*(temp.i*temp.k - temp.j*temp.s), 2*(temp.j*temp.k + temp.i*temp.s), (powf(temp.s, 2) + powf(temp.i, 2) - powf(temp.j, 2) + powf(temp.k, 2)), 0,
+		(float)(pow(temp.s, 2) + pow(temp.i, 2) - pow(temp.j, 2) - pow(temp.k, 2)), (float)(2*(temp.i*temp.j - temp.k*temp.s)), (float)(2*(temp.i*temp.k + temp.j*temp.s)), 0,
+		(float)(2*(temp.i*temp.j + temp.k*temp.s)), (float)(pow(temp.s, 2) - pow(temp.i, 2) + pow(temp.j, 2) - pow(temp.k, 2)), (float)(2*(temp.j*temp.k - temp.i*temp.s)), 0,
+		(float)(2*(temp.i*temp.k - temp.j*temp.s)), (float)(2*(temp.j*temp.k + temp.i*temp.s)), (float)(pow(temp.s, 2) + pow(temp.i, 2) - pow(temp.j, 2) + pow(temp.k, 2)), 0,
 		0, 0, 0, 1);
 }
 

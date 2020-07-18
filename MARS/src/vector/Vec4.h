@@ -57,10 +57,17 @@ namespace mars
 		//Compare the Vec4 with another Vec4. If it's not equal, it'll return true.
 		bool operator!= (const Vec4& other) const;
 
+		//Postive operator implicit cast
+		Vec4 operator+ () { return *this; }
+		//Negative operator implicit cast
+		Vec4 operator- () { return (*this * -1); }
+
 		//Output stream operator
 		friend std::ostream& operator<< (std::ostream& stream, const Vec4& output)
 		{
+			SetOstream(stream);
 			stream << output.x << ", " << output.y << ", " << output.z << ", " << output.w;
+			SetOstream(stream);
 			return stream;
 		}
 

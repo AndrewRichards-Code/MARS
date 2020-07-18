@@ -62,31 +62,15 @@ float Vec3::Length()
 
 Vec3 Vec3::RotateQuat(float theta, const Vec3& axis)
 {
-	Quat rotation(theta, axis);
-	Quat rotationConjugate = rotation.Conjugate();
-	Quat temp = (rotation * (*this)) * rotationConjugate;
-
-	Vec3 result = Vec3(temp.i, temp.j, temp.k);
-	if (theta > 0)
-	{
-		result * (1.0f / sinf(theta / 2.0f));
-	}
-	return result;
+	return RotateQuat(Quat(theta, axis));
 }
 
 Vec3 Vec3::RotateQuat(const Quat& q)
 {
 	Quat rotation = q;
 	Quat rotationConjugate = rotation.Conjugate();
-	Quat temp = (rotation * (*this)) * rotationConjugate;
-
-	Vec3 result = Vec3(temp.i, temp.j, temp.k);
-	float theta = 2 * acosf(temp.s);
-	if (theta > 0)
-	{
-		result * (1.0f / sinf(theta / 2.0f));
-	}
-	return result;
+	Quat result = (rotation * (*this)) * rotationConjugate;
+	return Quat::ToVec3(result);
 }
 
 Vec3 Vec3::operator+ (const Vec3& other) const
