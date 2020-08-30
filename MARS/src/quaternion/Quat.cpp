@@ -37,28 +37,20 @@ Quat Quat::Conjugate(const Quat& other)
 Quat Quat::Normalise()
 {
 	double length = sqrt(s * s + i * i + j * j + k * k);
-	s /= length;
-	i /= length;
-	j /= length;
-	k /= length;
+	if (length > 0.0f)
+	{
+		s /= length;
+		i /= length;
+		j /= length;
+		k /= length;
+	}
 	return *this;
 }
 
 Quat Quat::Normalise(const Quat& input)
 {
-	double length = sqrt(input.s * input.s + input.i * input.i + input.j * input.j + input.k * input.k);
-	double temp_s = input.s;
-	double temp_i = input.i;
-	double temp_j = input.j;
-	double temp_k = input.k;
-	
-	Quat output (
-		temp_s /= length,
-		temp_i /= length,
-		temp_j /= length,
-		temp_k /= length
-	);
-	return output;
+	Quat temp = input;
+	return temp.Normalise();
 }
 
 Vec3 Quat::ToVec3()
