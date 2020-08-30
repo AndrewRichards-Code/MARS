@@ -32,15 +32,23 @@ float Vec2::Det(const Vec2& other)
 
 Vec2 Vec2::Normalise()
 {
-	return *this * (1 / sqrt(pow(this->x, 2) + pow(this->y, 2)));
+	float length = Length();
+	if (length > 0.0f)
+		return *this * (1 / length);
+	else
+		return *this;
 }
 
 Vec2 Vec2::Normalise(const Vec2& other)
 {
-	return other * (1 / sqrt(pow(other.x, 2) + pow(other.y, 2)));
+	float length = other.Length();
+	if (length > 0.0f)
+		return other * (1 / length);
+	else
+		return other;
 }
 
-float Vec2::Length()
+float Vec2::Length() const
 {
 	return sqrtf(x * x + y * y);
 }

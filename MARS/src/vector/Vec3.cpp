@@ -19,6 +19,9 @@ Vec3::Vec3(const CoordSph& other)
 	y((float)(other.r * sin(other.theta) * sin(other.phi))),
 	z((float)(other.r * cos(other.theta))) {}
 
+Vec3::Vec3(const Vec4& copy)
+	: x(copy.x), y(copy.y), z(copy.z) {}
+
 Vec3::~Vec3() {}
 
 float Vec3::Dot(const Vec3& other)
@@ -47,15 +50,23 @@ Vec3 Vec3::Cross(const Vec3& a, const Vec3& b)
 
 Vec3 Vec3::Normalise()
 {
-	return *this * (1 / sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
+	float length = Length();
+	if (length > 0.0f)
+		return *this * (1 / length);
+	else
+		return *this;
 }
 
 Vec3 Vec3::Normalise(const Vec3& other)
 {
-	return other * (1 / sqrt(pow(other.x, 2) + pow(other.y, 2) + pow(other.z, 2)));
+	float length = other.Length();
+	if (length > 0.0f)
+		return other * (1 / length);
+	else
+		return other;
 }
 
-float Vec3::Length()
+float Vec3::Length() const
 {
 	return sqrtf(x * x + y * y + z * z);
 }

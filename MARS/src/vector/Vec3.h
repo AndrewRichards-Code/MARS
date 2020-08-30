@@ -3,6 +3,7 @@
 
 namespace mars
 {
+	class Vec4;
 	class Mat3;
 	class Quat;
 	class Vec3
@@ -20,11 +21,13 @@ namespace mars
 		//Constructs a Vec3 taking x, y, z.
 		Vec3(float x, float y, float z);
 		//Constructs a Vec3 from another Vec3.
-		Vec3(const Vec3 & copy);
+		Vec3(const Vec3& copy);
 		//Constructs a Vec3 from the struct CoordCart3D.
 		Vec3(const CoordCart3D& other);
 		//Constructs a Vec3 from the struct CoordSph.
 		Vec3(const CoordSph& other);
+		//Constructs a Vec3 from a Vec4 omitting the 'w' value.
+		Vec3(const Vec4& copy);
 
 		//Destructs the Vec3.
 		~Vec3();
@@ -45,7 +48,7 @@ namespace mars
 		static Vec3 Normalise(const Vec3& other);
 
 		//Returns the length of the Vector.
-		float Length();
+		float Length() const;
 
 		//Rotates the current object via quaternions and returns a new Vec3.
 		Vec3 RotateQuat(float theta, const Vec3& axis);

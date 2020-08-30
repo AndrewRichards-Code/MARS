@@ -26,15 +26,23 @@ float Vec4::Dot(const Vec4& other)
 
 Vec4 Vec4::Normalise()
 {
-	return *this * (1 / sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2) + pow(this->w, 2)));
+	float length = Length();
+	if (length > 0.0f)
+		return *this * (1 / length);
+	else
+		return *this;
 }
 
 Vec4 Vec4::Normalise(const Vec4& other)
 {
-	return other * (1 / sqrt(pow(other.x, 2) + pow(other.y, 2) + pow(other.z, 2) + pow(other.w, 2)));
+	float length = other.Length();
+	if (length > 0.0f)
+		return other * (1 / length);
+	else
+		return other;
 }
 
-float Vec4::Length()
+float Vec4::Length() const
 {
 	return sqrtf(x * x + y * y + z * z + w * w);
 }

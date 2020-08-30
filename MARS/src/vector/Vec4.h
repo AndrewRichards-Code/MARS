@@ -37,7 +37,7 @@ namespace mars
 		Vec4 Normalise(const Vec4& other);
 
 		//Returns the length of the Vector.
-		float Length();
+		float Length() const;
 
 		//Adds two Vec4s.
 		Vec4 operator+ (const Vec4& other) const;

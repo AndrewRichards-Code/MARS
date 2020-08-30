@@ -38,7 +38,7 @@ namespace mars
 		Vec2 Normalise(const Vec2& other);
 
 		//Returns the length of the Vector.
-		float Length();
+		float Length() const;
 		
 
 		//ROTATIONS
