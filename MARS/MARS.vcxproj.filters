@@ -89,5 +89,11 @@
     <ClInclude Include="src\mars_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\vector\VectorStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\matrix\MatrixStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

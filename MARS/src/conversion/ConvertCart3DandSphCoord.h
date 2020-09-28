@@ -24,7 +24,7 @@ namespace mars
 	{
 		double r, theta, phi;
 		r = sqrt(x * x + y * y + z * z);
-		theta = acos(x / r);
+		theta = acos(z / r);
 		phi = atan2(y, x);
 		CoordSph output(r, theta, phi);
 		return output;

@@ -100,7 +100,9 @@
     <ClInclude Include="src\matrix\Mat2.h" />
     <ClInclude Include="src\matrix\Mat3.h" />
     <ClInclude Include="src\matrix\Mat4.h" />
+    <ClInclude Include="src\matrix\MatrixStructure.h" />
     <ClInclude Include="src\quaternion\Quat.h" />
+    <ClInclude Include="src\vector\VectorStructure.h" />
     <ClInclude Include="src\vector\Vec2.h" />
     <ClInclude Include="src\vector\Vec3.h" />
     <ClInclude Include="src\vector\Vec4.h" />
