@@ -14,3 +14,5 @@
 
 #include "calculus/differentiation.h"
 #include "calculus/integration.h"
+
+#include "other/UtilityFinctions.h"
