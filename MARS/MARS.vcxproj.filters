@@ -42,6 +42,9 @@
     <ClCompile Include="src\vector\Vec4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\other\UtilityFinctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\calculus\differentiation.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\matrix\MatrixStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\other\UtilityFinctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
