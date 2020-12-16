@@ -76,9 +76,9 @@ Mat4 Quat::ToMat4()
 {
 	Normalise();
 	return Mat4(
-		(float)(pow(s, 2) + pow(i, 2) - pow(j, 2) - pow(k, 2)), (float)(2*(i*j - k*s)), (float)(2*(i*k + j*s)), 0,
-		(float)(2*(i*j + k*s)), (float)(pow(s, 2) - pow(i, 2) + pow(j, 2) - pow(k, 2)), (float)(2*(j*k - i*s)), 0,
-		(float)(2*(i*k - j*s)), (float)(2*(j*k + i*s)), (float)(pow(s, 2) - pow(i, 2) - pow(j, 2) + pow(k, 2)), 0,
+		(float)(1-2*(pow(j, 2) + pow(k, 2))),	(float)(2*(i*j - k*s)),					(float)(2*(i*k + j*s)),					0,
+		(float)(2*(i*j + k*s)),					(float)(1-2*(pow(i, 2) + pow(k, 2))),	(float)(2*(j*k - i*s)),					0,
+		(float)(2*(i*k - j*s)),					(float)(2*(j*k + i*s)),					(float)(1-2*(pow(i, 2) + pow(j, 2))),	0,
 		0, 0, 0, 1);
 }
 
@@ -87,9 +87,9 @@ Mat4 Quat::ToMat4(const Quat& input)
 	Quat temp = input;
 	temp.Normalise();
 	return Mat4(
-		(float)(pow(temp.s, 2) + pow(temp.i, 2) - pow(temp.j, 2) - pow(temp.k, 2)), (float)(2*(temp.i*temp.j - temp.k*temp.s)), (float)(2*(temp.i*temp.k + temp.j*temp.s)), 0,
-		(float)(2*(temp.i*temp.j + temp.k*temp.s)), (float)(pow(temp.s, 2) - pow(temp.i, 2) + pow(temp.j, 2) - pow(temp.k, 2)), (float)(2*(temp.j*temp.k - temp.i*temp.s)), 0,
-		(float)(2*(temp.i*temp.k - temp.j*temp.s)), (float)(2*(temp.j*temp.k + temp.i*temp.s)), (float)(pow(temp.s, 2) + pow(temp.i, 2) - pow(temp.j, 2) + pow(temp.k, 2)), 0,
+		(float)(1-2*(pow(temp.j, 2) + pow(temp.k, 2))), (float)(2*(temp.i*temp.j - temp.k*temp.s)),		(float)(2*(temp.i*temp.k + temp.j*temp.s)),		0,
+		(float)(2*(temp.i*temp.j + temp.k*temp.s)),		(float)(1-2*(pow(temp.i, 2) + pow(temp.k, 2))), (float)(2*(temp.j*temp.k - temp.i*temp.s)),		0,
+		(float)(2*(temp.i*temp.k - temp.j*temp.s)),		(float)(2*(temp.j*temp.k + temp.i*temp.s)),		(float)(1-2*(pow(temp.i, 2) + pow(temp.j, 2))), 0,
 		0, 0, 0, 1);
 }
 
