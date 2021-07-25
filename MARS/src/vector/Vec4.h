@@ -45,7 +45,7 @@ namespace mars
 		Vec4& operator+= (const Vec4& other);
 		//Subtracts two Vec4s.
 		Vec4 operator- (const Vec4& other) const;
-		//Subtracts a Vec3 from the current object.
+		//Subtracts a Vec4 from the current object.
 		Vec4& operator-= (const Vec4& other);
 		//Scales the Vec4 by the scaler a. The scaler go on the rhs of the object.
 		Vec4 operator* (float a) const;
