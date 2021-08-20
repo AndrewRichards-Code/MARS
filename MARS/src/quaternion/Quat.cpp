@@ -93,6 +93,64 @@ Mat4 Quat::ToMat4(const Quat& input)
 		0, 0, 0, 1);
 }
 
+Vec3 Quat::ToEulerAngles()
+{
+	return ToEulerAngles(*this);
+}
+
+Vec3 Quat::ToEulerAngles(const Quat& input)
+{
+	mars::Vec3 angles;
+
+	// roll (x-axis rotation)
+	double sinr_cosp = 2 * (input.s * input.i + input.j * input.k);
+	double cosr_cosp = 1 - 2 * (input.i * input.i + input.j * input.j);
+	angles.x = (float)std::atan2(sinr_cosp, cosr_cosp);
+
+	// pitch (y-axis rotation)
+	double sinp = 2 * (input.s * input.j - input.k * input.i);
+	if (std::abs(sinp) >= 1)
+		angles.y = (float)std::copysign(pi / 2, sinp); // use 90 degrees if out of range
+	else
+		angles.y = (float)std::asin(sinp);
+
+	// yaw (z-axis rotation)
+	double siny_cosp = 2 * (input.s * input.k + input.i * input.j);
+	double cosy_cosp = 1 - 2 * (input.j * input.j + input.k * input.k);
+	angles.z = (float)std::atan2(siny_cosp, cosy_cosp);
+
+	return angles;
+}
+
+/*Quat Quat::FromEulerAngles(const Vec3& input)
+{
+	*this = FromEulerAngles(input);
+	return *this;
+}*/
+
+Quat Quat::FromEulerAngles(const Vec3& input)
+{
+	// Abbreviations for the various angular functions
+	const float& roll = input.x;
+	const float& pitch = input.y;
+	const float& yaw = input.z;
+
+	double cy = cos(yaw * 0.5);
+	double sy = sin(yaw * 0.5);
+	double cp = cos(pitch * 0.5);
+	double sp = sin(pitch * 0.5);
+	double cr = cos(roll * 0.5);
+	double sr = sin(roll * 0.5);
+
+	mars::Quat q;
+	q.s = cr * cp * cy + sr * sp * sy;
+	q.i = sr * cp * cy - cr * sp * sy;
+	q.j = cr * sp * cy + sr * cp * sy;
+	q.k = cr * cp * sy - sr * sp * cy;
+
+	return q;
+}
+
 Quat Quat::operator+ (const Quat& other) const
 {
 	return Quat(s + other.s, i + other.i, j + other.j, k + other.k);

@@ -30,7 +30,6 @@ namespace mars
 
 		//Normalises the current object.
 		Quat Normalise();
-
 		//Normalises the input object.
 		static Quat Normalise(const Quat& input);
 
@@ -43,6 +42,17 @@ namespace mars
 		Mat4 ToMat4();
 		//Converts the input object to a new Mat4.
 		static Mat4 ToMat4(const Quat& input);
+
+		//Converts the current object to a new EulerAngles: Vec3(roll, pitch, yaw).
+		Vec3 ToEulerAngles();
+		//Converts the input object to a new EulerAngles: Vec3(roll, pitch, yaw).
+		static Vec3 ToEulerAngles(const Quat& input);
+
+		//Converts from EulerAngles: Vec3(roll, pitch, yaw) and sets the current object.
+		//Quat FromEulerAngles(const Vec3& input);
+		
+		//Converts from EulerAngles: Vec3(roll, pitch, yaw).
+		static Quat FromEulerAngles(const Vec3& input);
 
 		//Adds two Quats.
 		Quat operator+ (const Quat& other) const;
