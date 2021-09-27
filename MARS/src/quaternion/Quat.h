@@ -48,11 +48,11 @@ namespace mars
 		//Converts the input object to a new EulerAngles: Vec3(roll, pitch, yaw).
 		static Vec3 ToEulerAngles(const Quat& input);
 
-		//Converts from EulerAngles: Vec3(roll, pitch, yaw) and sets the current object.
-		//Quat FromEulerAngles(const Vec3& input);
-		
 		//Converts from EulerAngles: Vec3(roll, pitch, yaw).
 		static Quat FromEulerAngles(const Vec3& input);
+
+		//Converts from RotationMatrix
+		static Quat FromRotationMat4(const Mat4& input);
 
 		//Adds two Quats.
 		Quat operator+ (const Quat& other) const;

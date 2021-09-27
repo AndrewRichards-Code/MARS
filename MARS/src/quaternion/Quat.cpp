@@ -122,12 +122,6 @@ Vec3 Quat::ToEulerAngles(const Quat& input)
 	return angles;
 }
 
-/*Quat Quat::FromEulerAngles(const Vec3& input)
-{
-	*this = FromEulerAngles(input);
-	return *this;
-}*/
-
 Quat Quat::FromEulerAngles(const Vec3& input)
 {
 	// Abbreviations for the various angular functions
@@ -148,6 +142,58 @@ Quat Quat::FromEulerAngles(const Vec3& input)
 	q.j = cr * sp * cy + sr * cp * sy;
 	q.k = cr * cp * sy - sr * sp * cy;
 
+	return q;
+}
+
+Quat mars::Quat::FromRotationMat4(const Mat4& input)
+{
+	Quat q;
+	const double& a = static_cast<double>(input.a);
+	const double& b = static_cast<double>(input.b);
+	const double& c = static_cast<double>(input.c);
+	
+	const double& e = static_cast<double>(input.e);
+	const double& f = static_cast<double>(input.f);
+	const double& g = static_cast<double>(input.g);
+	
+	const double& i = static_cast<double>(input.i);
+	const double& j = static_cast<double>(input.j);
+	const double& k = static_cast<double>(input.k);
+
+	if (a + f + k > 0.0)
+	{
+		float scale = sqrt((1.0 + a + f + k) / 4.0); //q.s
+		q.s = scale;
+		q.i = (j - g) / (4.0 * scale);
+		q.j = (c - i) / (4.0 * scale);
+		q.k = (e - b) / (4.0 * scale);
+	}
+	else if ((a > f) && (a > k))
+	{
+		float scale = sqrt((1.0 + a - f - k) / 4.0); //q.i 
+		q.s = (j - g) / (4.0 * scale);
+		q.i = scale;
+		q.j = (b + e) / (4.0 * scale);
+		q.k = (c + i) / (4.0 * scale);
+	}
+	else if (f > k)
+	{
+		float scale = sqrt((1.0 + f - a - k) / 4.0); //q.j
+		q.s = (c - i) / (4.0 * scale);
+		q.i = (b + e) / (4.0 * scale);
+		q.j = scale;
+		q.k = (g + j) / (4.0 * scale);
+	}
+	else 
+	{
+		float scale = sqrt((1.0 + k - a - f) / 4.0); //q.k
+		q.s = (e - b) / (4.0 * scale);
+		q.i = (c + i) / (4.0 * scale);
+		q.j = (g + j) / (4.0 * scale);
+		q.k = scale;
+	}
+	
+	q.Normalise();
 	return q;
 }
 
