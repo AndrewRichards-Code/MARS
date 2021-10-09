@@ -162,7 +162,7 @@ Quat mars::Quat::FromRotationMat4(const Mat4& input)
 
 	if (a + f + k > 0.0)
 	{
-		float scale = sqrt((1.0 + a + f + k) / 4.0); //q.s
+		double scale = sqrt((1.0 + a + f + k) / 4.0); //q.s
 		q.s = scale;
 		q.i = (j - g) / (4.0 * scale);
 		q.j = (c - i) / (4.0 * scale);
@@ -170,7 +170,7 @@ Quat mars::Quat::FromRotationMat4(const Mat4& input)
 	}
 	else if ((a > f) && (a > k))
 	{
-		float scale = sqrt((1.0 + a - f - k) / 4.0); //q.i 
+		double scale = sqrt((1.0 + a - f - k) / 4.0); //q.i 
 		q.s = (j - g) / (4.0 * scale);
 		q.i = scale;
 		q.j = (b + e) / (4.0 * scale);
@@ -178,7 +178,7 @@ Quat mars::Quat::FromRotationMat4(const Mat4& input)
 	}
 	else if (f > k)
 	{
-		float scale = sqrt((1.0 + f - a - k) / 4.0); //q.j
+		double scale = sqrt((1.0 + f - a - k) / 4.0); //q.j
 		q.s = (c - i) / (4.0 * scale);
 		q.i = (b + e) / (4.0 * scale);
 		q.j = scale;
@@ -186,7 +186,7 @@ Quat mars::Quat::FromRotationMat4(const Mat4& input)
 	}
 	else 
 	{
-		float scale = sqrt((1.0 + k - a - f) / 4.0); //q.k
+		double scale = sqrt((1.0 + k - a - f) / 4.0); //q.k
 		q.s = (e - b) / (4.0 * scale);
 		q.i = (c + i) / (4.0 * scale);
 		q.j = (g + j) / (4.0 * scale);
