@@ -74,7 +74,7 @@ namespace mars
 
 		//Gets the scaled axis (imagery) of current object as a Vector3.
 		template<typename T>
-		Vector3<T> GetScaledAxis()
+		Vector3<T> GetScaledAxis() const
 		{
 			return GetScaledAxis<T>(*this);
 		}
@@ -96,7 +96,7 @@ namespace mars
 
 		//Converts the current object to a new Matrix4.
 		template<typename T>
-		Matrix4<T> ToRotationMatrix4()
+		Matrix4<T> ToRotationMatrix4() const
 		{
 			return Quaternion::ToRotationMatrix4<T>(*this);
 		}
@@ -168,7 +168,7 @@ namespace mars
 
 		//Converts the current object to a new EulerAngles: Vector3(roll, pitch, yaw).
 		template<typename T>
-		Vector3<T> ToEulerAngles()
+		Vector3<T> ToEulerAngles() const
 		{
 			return ToEulerAngles<T>(*this);
 		}
