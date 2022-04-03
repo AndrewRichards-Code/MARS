@@ -108,21 +108,26 @@ namespace mars
 		{
 			return Matrix4(1);
 		}
+
 		//Constructs a orthographic matrix (Matrix4).
+		//For Normalised Device Co-ordinates of X: -1 to 1, Y: -1 to 1 and Z: 0 to 1 in a Left-Handed system.
 		static Matrix4 Orthographic(float left, float right, float bottom, float top, float _near, float _far)
 		{
-			return Matrix4((2 / (static_cast<T>(right - left))), (0), (0), (static_cast<T>(-(right + left) / (right - left))),
-						(0), (2 / static_cast<T>(top - bottom)), (0), (static_cast<T>(-(top + bottom) / (top - bottom))),
-						(0), (0), (-2 / static_cast<T>(_far - _near)), (static_cast<T>(-(_far + _near) / (_far - _near))),
-						(0), (0), (0),(1));
+			return Matrix4(
+				(2 / (static_cast<T>(right - left))),	(0),								(0),								(static_cast<T>(-(right + left) / (right - left))),
+				(0),									(2 / static_cast<T>(top - bottom)),	(0),								(static_cast<T>(-(top + bottom) / (top - bottom))),
+				(0),									(0),								(1 / static_cast<T>(_far - _near)),	(static_cast<T>(-(_near) / (_far - _near))),
+				(0),									(0),								(0),								(1));
 		}
 		//Constructs a perspective matrix (Matrix4). Input fov is in radians.
+		//For Normalised Device Co-ordinates of X: -1 to 1, Y: -1 to 1 and Z: 0 to 1 in a Left-Handed system.
 		static Matrix4 Perspective(double fov, float aspectRatio, float _near, float _far)
 		{
-			return Matrix4((1 / static_cast<T>(aspectRatio * static_cast<float>(tan(fov / 2)))), (0), (0), (0),
-				(0), (1 / static_cast<T>(static_cast<float>(tan(fov / 2)))), (0), (0),
-				(0), (0), (static_cast<T>(-((_far + _near) / (_far - _near)))), (static_cast<T>(-((2 * _far * _near) / (_far - _near)))),
-				(0), (0), (-1), (0));
+			return Matrix4(
+				(1 / static_cast<T>(aspectRatio * static_cast<float>(tan(fov / 2)))),	(0),														(0),										(0),
+				(0),																	(1 / static_cast<T>(static_cast<float>(tan(fov / 2)))),		(0),										(0),
+				(0),																	(0),														(static_cast<T>((_far) / (_far - _near))),	(static_cast<T>(-(_far * _near) / (_far - _near))),
+				(0),																	(0),														(1),										(0));
 		}
 
 		//Constructs a translation matrix.
