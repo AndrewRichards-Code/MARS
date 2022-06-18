@@ -80,7 +80,7 @@ namespace mars
 		}
 		//Gets the scaled axis (imagery) of input object as a Vector3.
 		template<typename T>
-		static Vector3<T> GetScaledAxis(const Quaternion & other)
+		static Vector3<T> GetScaledAxis(const Quaternion& other)
 		{
 			Quaternion input = other;
 			input.Normalise();

@@ -213,7 +213,7 @@ namespace mars
 		}
 
 		//Output stream operator
-		friend std::ostream& operator<< (std::ostream& stream, const Matrix4 & output)
+		friend std::ostream& operator<< (std::ostream& stream, const Matrix4& output)
 		{
 			SetOstream(stream);
 			stream << output.a << ", " << output.b << ", " << output.c << ", " << output.d << std::endl;
