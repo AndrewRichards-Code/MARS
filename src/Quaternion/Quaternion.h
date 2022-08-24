@@ -38,13 +38,34 @@ namespace mars
 		//Destructs the Quaternion.
 		~Quaternion() {}
 
-		//Finds the conjugate of the current object.
+		//Inverts the current object.
+		Quaternion Inverse()
+		{
+			*this = Quaternion::Inverse(*this);
+			return *this;
+		}
+		//Inverts the input object.
+		static Quaternion Inverse(const Quaternion& other)
+		{
+			Quaternion temp = Quaternion::Conjugate(other);
+			double length2 = temp.s * temp.s + temp.i * temp.i + temp.j * temp.j + temp.k * temp.k;
+			if (length2 > 0.0)
+			{
+				temp.s /= length2;
+				temp.i /= length2;
+				temp.j /= length2;
+				temp.k /= length2;
+			}
+			return temp;
+		}
+
+		//Conjugates the current object.
 		Quaternion Conjugate()
 		{
 			*this = Quaternion::Conjugate(*this);
 			return *this;
 		}
-		//Finds the conjugate of the input object.
+		//Conjugates the input object.
 		static Quaternion Conjugate(const Quaternion& other)
 		{
 			return Quaternion(other.s, -other.i, -other.j, -other.k);
@@ -57,9 +78,9 @@ namespace mars
 			return *this;
 		}
 		//Normalises the input object.
-		static Quaternion Normalise(const Quaternion& input)
+		static Quaternion Normalise(const Quaternion& other)
 		{
-			Quaternion temp = input;
+			Quaternion temp = other;
 			double length = sqrt(temp.s * temp.s + temp.i * temp.i + temp.j * temp.j + temp.k * temp.k);
 			if (length > 0.0)
 			{
@@ -70,6 +91,37 @@ namespace mars
 			}
 
 			return temp;
+		}
+
+		//Spherically-Linearly interpolate between two Quaternions.
+		static Quaternion Slerp(const Quaternion& start, const Quaternion& end, double t)
+		{
+			//https://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/index.htm
+
+			Quaternion q_start = Quaternion::Normalise(start);
+			Quaternion q_end = Quaternion::Normalise(end);
+
+			double dot = q_start.s * q_end.s + q_start.i * q_end.i + q_start.j * q_end.j + q_start.k * q_end.k;
+			if (dot < 0.0)
+			{
+				dot *= -1.0;
+				q_end.s *= -1.0;
+				q_end.i *= -1.0;
+				q_end.j *= -1.0;
+				q_end.k *= -1.0;
+			}
+			dot = std::clamp(dot, -1.0, 1.0);
+
+			double theta = acos(dot);
+			double a = sin((1.0 - t) * theta);
+			double b = sin(t * theta);
+			double c = sin(theta);
+
+			double s = q_start.s * (a / c) + q_end.s * (b / c);
+			double i = q_start.i * (a / c) + q_end.i * (b / c);
+			double j = q_start.j * (a / c) + q_end.j * (b / c);
+			double k = q_start.k * (a / c) + q_end.k * (b / c);
+			return Quaternion(s, i, j, k).Normalise();
 		}
 
 		//Gets the scaled axis (imagery) of current object as a Vector3.
@@ -89,7 +141,7 @@ namespace mars
 			double denom = sin(theta / 2.0);
 			if (denom > 0.001)
 			{
-				result *= static_cast<T>(1.0f / sin(theta / 2.0f));
+				result *= static_cast<T>(1.0 / denom);
 			}
 			return result;
 		}
@@ -222,7 +274,7 @@ namespace mars
 			return q;
 		}
 
-		//Adds two Quats.
+		//Adds two Quaternions.
 		Quaternion operator+ (const Quaternion& other) const
 		{
 			return Quaternion(s + other.s, i + other.i, j + other.j, k + other.k);
@@ -236,7 +288,7 @@ namespace mars
 			k += other.k;
 			return *this;
 		}
-		//Subtracts two Quats.
+		//Subtracts two Quaternions.
 		Quaternion operator- (const Quaternion& other) const
 		{
 			return Quaternion(s - other.s, i - other.i, j - other.j, k - other.k);
@@ -250,7 +302,7 @@ namespace mars
 			k -= other.k;
 			return *this;
 		}
-		//Multiples two Quats.
+		//Multiples two Quaternions.
 		Quaternion operator* (const Quaternion& other) const
 		{
 			return Quaternion(
@@ -302,7 +354,7 @@ namespace mars
 				return false;
 		}
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Quaternion& output)
 		{
 			SetOstream(stream);

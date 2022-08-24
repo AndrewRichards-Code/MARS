@@ -37,14 +37,15 @@ namespace mars
 		~Vector4() {}
 
 		//Takes the dot product of the current object and another Vector4.
-		float Dot(const Vector4& other)
+		template<std::floating_point U>
+		U Dot(const Vector4& other)
 		{
-			return Dot(*this, other);
+			return Dot<U>(*this, other);
 		}
-		//Takes the dot product of two Vec4s.
-		static float Dot(const Vector4& a, const Vector4& b)
+		template<std::floating_point U>
+		static U Dot(const Vector4& a, const Vector4& b)
 		{
-			return static_cast<float>((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
+			return static_cast<U>((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 		}
 
 		//Normalise the current object.
@@ -56,20 +57,31 @@ namespace mars
 		//Normalise the input object and return a new Vector4.
 		static Vector4 Normalise(const Vector4& other)
 		{
-			float length = other.Length();
-			if (length > 0.0f)
-				return other * static_cast<T>(1.0f / length);
+			double length = other.Length<double>();
+			if (length > 0.0)
+				return other * static_cast<T>(1.0 / length);
 			else
 				return other;
 		}
 
 		//Returns the length of the Vector.
-		float Length() const
+		template<std::floating_point U>
+		U Length() const
 		{
-			return static_cast<float>(sqrt(x * x + y * y + z * z + w * w));
+			return static_cast<U>(sqrt(x * x + y * y + z * z + w * w));
 		}
 
-		//Adds two Vec4s.
+
+		//Linearly interpolate between two Vector4s.
+		template<std::floating_point U>
+		static Vector4<U> Lerp(const Vector4& start, const Vector4& end, U t)
+		{
+			Vector4<U> _start(static_cast<U>(start.x), static_cast<U>(start.y), static_cast<U>(start.z), static_cast<U>(start.w));
+			Vector4<U> _end(static_cast<U>(end.x), static_cast<U>(end.y), static_cast<U>(end.z), static_cast<U>(start.w));
+			return _start + (_end - _start) * t;
+		}
+
+		//Adds two Vector4s.
 		Vector4 operator+ (const Vector4& other) const
 		{
 			return Vector4(x + other.x, y + other.y, z + other.z, w + other.w);
@@ -83,7 +95,7 @@ namespace mars
 			w += other.w;
 			return *this;
 		}
-		//Subtracts two Vec4s.
+		//Subtracts two Vector4s.
 		Vector4 operator- (const Vector4& other) const
 		{
 			return Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
@@ -129,15 +141,15 @@ namespace mars
 				return false;
 		}
 
-		//Postive operator implicit cast
+		//Postive operator implicit cast.
 		Vector4 operator+ () { return *this; }
 		//Negative operator implicit cast
 		Vector4 operator- () { return (*this * -1); }
 
-		//Vector3 operator implicit cast
+		//Vector3 operator implicit cast.
 		inline operator Vector3<T>() { return Vector3<T>(x, y, z); }
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Vector4& output)
 		{
 			SetOstream(stream);

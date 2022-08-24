@@ -17,7 +17,7 @@ namespace mars
 		//Constructs a Matrix2 taking a, b, c, d.
 		Matrix2(T a, T b, T c, T d)
 			: a(a), b(b), c(c), d(d) {}
-		//Constructs a Matrix2 from two Vec2s.
+		//Constructs a Matrix2 from two Vector2s.
 		Matrix2(const Vector2<T>& a, const Vector2<T>& b)
 			: a(a.x), b(a.y), c(b.x), d(b.y) {}
 
@@ -90,7 +90,7 @@ namespace mars
 			return *this;
 		}
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Matrix2& output)
 		{
 			SetOstream(stream);

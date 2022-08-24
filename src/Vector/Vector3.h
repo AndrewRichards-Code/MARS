@@ -39,14 +39,16 @@ namespace mars
 		~Vector3() {}
 
 		//Takes the dot product of the current object and another Vector3.
-		float Dot(const Vector3& other)
+		template<std::floating_point U>
+		U Dot(const Vector3& other)
 		{
-			return Dot(*this, other);
+			return Dot<U>(*this, other);
 		}
-		//Takes the dot product of two Vec3s.
-		static float Dot(const Vector3& a, const Vector3& b)
+		//Takes the dot product of two Vector3s.
+		template<std::floating_point U>
+		static U Dot(const Vector3& a, const Vector3& b)
 		{
-			return static_cast<float>((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+			return static_cast<U>((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 		}
 
 		//Takes the cross product of the current object and another Vector3. RHRule.
@@ -54,7 +56,7 @@ namespace mars
 		{
 			return Cross(*this, other);
 		}
-		//Takes the cross product of two Vec3s. RHRule.
+		//Takes the cross product of two Vector3s. RHRule.
 		static Vector3 Cross(const Vector3& a, const Vector3& b)
 		{
 			Matrix3<T> mat(Vector3(1, 1, 1), Vector3(a.x, a.y, a.z), Vector3(b.x, b.y, b.z));
@@ -70,35 +72,43 @@ namespace mars
 		//Normalise the input object and return a new Vector3.
 		static Vector3 Normalise(const Vector3& other)
 		{
-			float length = other.Length();
-			if (length > 0.0f)
-				return other * static_cast<T>(1.0f / length);
+			double length = other.Length<double>();
+			if (length > 0.0)
+				return other * static_cast<T>(1.0 / length);
 			else
 				return other;
 		}
 
 		//Returns the length of the Vector.
-		float Length() const
+		template<std::floating_point U>
+		U Length() const
 		{
-			return static_cast<float>(sqrt(x * x + y * y + z * z));
+			return static_cast<U>(sqrt(x * x + y * y + z * z));
 		}
 
-		//Rotates the current object via quaternions and returns a new Vector3.
-		Vector3 RotateQuat(double theta, const Vector3& axis)
+		//Linearly interpolate between two Vector3s.
+		template<std::floating_point U>
+		static Vector3<U> Lerp(const Vector3& start, const Vector3& end, U t)
 		{
-			*this = RotateQuat(Quaternion(theta, axis));
+			Vector3<U> _start(static_cast<U>(start.x), static_cast<U>(start.y), static_cast<U>(start.z));
+			Vector3<U> _end(static_cast<U>(end.x), static_cast<U>(end.y), static_cast<U>(end.z));
+			return _start + (_end - _start) * t;
+		}
+
+		//Rotates the current object via quaternion and returns a new Vector3.
+		Vector3 RotateQuaternion(double theta, const Vector3& axis)
+		{
+			*this = RotateQuaternion(Quaternion(theta, axis));
 			return *this;
 		}
-		//Rotates the current object via quaternions and returns a new Vector3.
-		Vector3 RotateQuat(const Quaternion& q)
+		//Rotates the current object via quaternion and returns a new Vector3.
+		Vector3 RotateQuaternion(const Quaternion& q)
 		{
-			Quaternion rotation = q;
-			Quaternion rotationConjugate = rotation.Conjugate();
-			Quaternion result = (rotation * (*this)) * rotationConjugate;
+			Quaternion result = (q * (*this)) * Quaternion::Conjugate(q);
 			return Quaternion::GetScaledAxis<T>(result);
 		}
 
-		//Adds two Vec3s.
+		//Adds two Vector3s.
 		Vector3 operator+ (const Vector3& other) const
 		{
 			return Vector3(x + other.x, y + other.y, z + other.z);
@@ -111,7 +121,7 @@ namespace mars
 			z += other.z;
 			return *this;
 		}
-		//Subtracts two Vec3s.
+		//Subtracts two Vector3s.
 		Vector3 operator- (const Vector3& other) const
 		{
 			return Vector3(x - other.x, y - other.y, z - other.z);
@@ -155,12 +165,12 @@ namespace mars
 				return false;
 		}
 
-		//Postive operator implicit cast
+		//Postive operator implicit cast.
 		Vector3 operator+ () { return *this; }
-		//Negative operator implicit cast
+		//Negative operator implicit cast.
 		Vector3 operator- () { return (*this * -1); }
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Vector3& output)
 		{
 			SetOstream(stream);

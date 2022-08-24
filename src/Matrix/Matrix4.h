@@ -21,7 +21,7 @@ namespace mars
 			T i, T j, T k, T l, T m, T n, T o, T p)
 			: a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h),
 			i(i), j(j), k(k), l(l), m(m), n(n), o(o), p(p) {}
-		//Constructs a Matrix4 from four Vec4s.
+		//Constructs a Matrix4 from four Vector4s.
 		Matrix4(const Vector4<T>& a, const Vector4<T>& b, const Vector4<T>& c, const Vector4<T>& d)
 			: a(a.x), b(a.y), c(a.z), d(a.w), e(b.x), f(b.y), g(b.z), h(b.w),
 			i(c.x), j(c.y), k(c.z), l(c.w), m(d.x), n(d.y), o(d.z), p(d.w) {}
@@ -212,7 +212,7 @@ namespace mars
 			return *this;
 		}
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Matrix4& output)
 		{
 			SetOstream(stream);

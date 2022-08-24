@@ -36,14 +36,16 @@ namespace mars
 		~Vector2() {}
 
 		//Takes the dot product of the current object and another Vector2.
-		float Dot(const Vector2& other)
+		template<std::floating_point U>
+		U Dot(const Vector2& other)
 		{
-			return Dot(*this, other);
+			return Dot<U>(*this, other);
 		}
-		//Takes the dot product of two Vec2s.
-		static float Dot(const Vector2& a, const Vector2& b)
+		//Takes the dot product of two Vector2s.
+		template<std::floating_point U>
+		static U Dot(const Vector2& a, const Vector2& b)
 		{
-			return static_cast<float>((a.x * b.x) + (a.y * b.y));
+			return static_cast<U>((a.x * b.x) + (a.y * b.y));
 		}
 
 		//Normalise the current object.
@@ -55,32 +57,42 @@ namespace mars
 		//Normalise the input object and return a new Vector2.
 		static Vector2 Normalise(const Vector2& other)
 		{
-			float length = other.Length();
-			if (length > 0.0f)
-				return other * static_cast<T>(1.0f / length);
+			double length = other.Length<double>();
+			if (length > 0.0)
+				return other * static_cast<T>(1.0 / length);
 			else
 				return other;
 		}
 
 		//Returns the length of the Vector.
-		float Length() const
+		template<std::floating_point U>
+		U Length() const
 		{
-			return static_cast<float>(sqrt(x * x + y * y));
+			return static_cast<U>(sqrt(x * x + y * y));
 		}
 
-		//Rotates the Vector2 by the input angle (in degrees). 
+		//Linearly interpolate between two Vector2s.
+		template<std::floating_point U>
+		static Vector2<U> Lerp(const Vector2& start, const Vector2& end, U t)
+		{
+			Vector2<U> _start(static_cast<U>(start.x), static_cast<U>(start.y));
+			Vector2<U> _end(static_cast<U>(end.x), static_cast<U>(end.y));
+			return _start + (_end - _start) * t;
+		}
+
+		//Rotates the Vector2 by the input angle (in degrees).
 		Vector2 RotateDeg(double theta)
 		{
 			double theta_rads = DegToRad(theta);
 			return RotateRad(theta_rads);
 		}
-		//Rotates the Vector2 by the input angle (in radinas). 
+		//Rotates the Vector2 by the input angle (in radinas).
 		Vector2 RotateRad(double theta)
 		{
 			return Vector2(static_cast<T>(x * cos(theta) - y * sin(theta)), static_cast<T>(x * sin(theta) + y * cos(theta)));
 		}
 
-		//Adds two Vec2s.
+		//Adds two Vector2s.
 		Vector2 operator+ (const Vector2& other) const
 		{
 			return Vector2(x + other.x, y + other.y);
@@ -92,7 +104,7 @@ namespace mars
 			y += other.y;
 			return *this;
 		}
-		//Subtracts two Vec2s.
+		//Subtracts two Vector2s.
 		Vector2 operator- (const Vector2& other) const
 		{
 			return Vector2(x - other.x, y - other.y);
@@ -133,12 +145,12 @@ namespace mars
 				return false;
 		}
 
-		//Postive operator implicit cast
+		//Postive operator implicit cast.
 		Vector2 operator+ () { return *this; }
-		//Negative operator implicit cast
+		//Negative operator implicit cast.
 		Vector2 operator- () { return (*this * -1); }
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Vector2& output)
 		{
 			SetOstream(stream);

@@ -17,7 +17,7 @@ namespace mars
 		//Constructs a Vector3 taking a, b, c, d, e, f, g, h, i.
 		Matrix3(T a, T b, T c, T d, T e, T f, T g, T h, T i)
 			: a(a), b(b), c(c), d(d), e(e), f(f), g(g), h(h), i(i) {}
-		//Constructs a Matrix3 from three Vec3s.
+		//Constructs a Matrix3 from three Vector3s.
 		Matrix3(const Vector3<T>& a, const Vector3<T>& b, const Vector3<T>& c)
 			: a(a.x), b(a.y), c(a.z), d(b.x), e(b.y), f(b.z), g(c.x), h(c.y), i(c.z) {}
 
@@ -107,7 +107,7 @@ namespace mars
 			return *this;
 		}
 
-		//Output stream operator
+		//Output stream operator.
 		friend std::ostream& operator<< (std::ostream& stream, const Matrix3& output)
 		{
 			SetOstream(stream);

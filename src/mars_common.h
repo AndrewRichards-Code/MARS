@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iomanip>
 #include <cmath>
+#include <algorithm>
 #include <functional>
 
 //Ostream Settings
