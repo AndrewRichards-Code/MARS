@@ -124,8 +124,8 @@ namespace mars
 			T A = 0, B = 0, C = 0, X = 0, Y = 0, Z = 0;
 			A = static_cast<T>(2) / static_cast<T>(right - left);
 			B = static_cast<T>(2) / static_cast<T>(top - bottom);
-			X = static_cast<T>((right + left) / (right - left));
-			Y = static_cast<T>((top + bottom) / (top - bottom));
+			X = static_cast<T>(-(right + left) / (right - left));
+			Y = static_cast<T>(-(top + bottom) / (top - bottom));
 			if (rightHanded) 
 			{
 				C = static_cast<T>(1) / static_cast<T>(zNear - zFar);
@@ -137,10 +137,10 @@ namespace mars
 				Z = static_cast<T>(-zNear) * C;
 			}
 			return Matrix4(
-				A, 0, 0, X,
-				0, B, 0, Y,
-				0, 0, C, Z,
-				0, 0, 0, 1);
+				A, 0, 0, 0,
+				0, B, 0, 0,
+				0, 0, C, 0,
+				X, Y, Z, 1);
 		}
 
 		//Constructs a perspective matrix (Matrix4). Input fov is in radians.
