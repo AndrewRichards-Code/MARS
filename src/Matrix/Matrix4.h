@@ -172,6 +172,45 @@ namespace mars
 				0, 0, D, 0);
 		}
 
+		//Constructs an offset perspective matrix (Matrix4). Inputs angles are in radians.
+		//For Normalised Device Co-ordinates of X: -1 to 1, Y: -1 to 1 and Z: 0 to 1 in a Left-Handed system. Options for Reverse Z and Right-Handed system.
+		//https://www.gamedev.net/tutorials/programming/graphics/perspective-projections-in-lh-and-rh-systems-r3598/ //Handed-ness.
+		//https://github.com/sebbbi/rust_test/commit/d64119ce22a6a4972e97b8566e3bbd221123fcbb //Reverse Z.
+		//https://github.com/KhronosGroup/OpenXR-Tutorials/blob/main/Common/xr_linear_algebra.h#L488-L544
+		static Matrix4 PerspectiveOffset(double angleLeft, double angleRight, double angleDown, double angleUp, float zNear, float zFar, bool reverseZ = false, bool rightHanded = false)
+		{
+			const double tanLeft = tan(angleLeft);
+			const double tanRight = tan(angleRight);
+			const double tanDown = tan(angleDown);
+			const double tanUp = tan(angleUp);
+
+			const double tanWidth = tanRight - tanLeft;
+			const double tanHeight = tanUp - tanDown;
+
+			T A = 0, B = 0, C = 0, D = 0, E = 0, X = 0, Y = 0;
+			A = static_cast<T>(2) / static_cast<T>(tanWidth);
+			B = static_cast<T>(2) / static_cast<T>(tanHeight);
+			X = static_cast<T>((tanRight + tanLeft) / tanWidth);
+			Y = static_cast<T>((tanUp + tanDown) / tanHeight);
+			D = rightHanded ? static_cast<T>(-1) : static_cast<T>(1);
+			if (reverseZ)
+			{
+				C = D * static_cast<T>((-zNear) / (zFar - zNear));
+				E = (rightHanded ? static_cast<T>(zFar) : static_cast<T>(-zFar)) * C;
+			}
+			else
+			{
+				C = D * static_cast<T>((zFar) / (zFar - zNear));
+				E = (rightHanded ? static_cast<T>(zNear) : static_cast<T>(-zNear)) * C;
+			}
+
+			return Matrix4(
+				A, 0, X, 0,
+				0, B, Y, 0,
+				0, 0, C, E,
+				0, 0, D, 0);
+		}
+
 		//Constructs a translation matrix.
 		static Matrix4 Translation(const Vector3<T>& translation)
 		{
