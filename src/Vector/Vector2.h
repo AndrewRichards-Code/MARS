@@ -64,7 +64,7 @@ namespace mars
 				return other;
 		}
 
-		//Returns the length of the Vector.
+		//Returns the length of the Vector2.
 		template<std::floating_point U>
 		U Length() const
 		{
@@ -78,6 +78,24 @@ namespace mars
 			Vector2<U> _start(static_cast<U>(start.x), static_cast<U>(start.y));
 			Vector2<U> _end(static_cast<U>(end.x), static_cast<U>(end.y));
 			return _start + (_end - _start) * t;
+		}
+
+		//Returns component-wise the minimum value of the two Vector2s.
+		static Vector2 Min(const Vector2& a, const Vector2& b)
+		{
+			Vector2 result;
+			result.x = std::min<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::min<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			return result;
+		}
+
+		//Returns component-wise the maximum value of the two Vector2s.
+		static Vector2 Max(const Vector2& a, const Vector2& b)
+		{
+			Vector2 result;
+			result.x = std::max<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::max<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			return result;
 		}
 
 		//Rotates the Vector2 by the input angle (in degrees).
@@ -119,7 +137,7 @@ namespace mars
 		//Scales the Vector2 by the scaler a. The scaler go on the rhs of the object.
 		Vector2 operator* (T a) const
 		{
-			return Vector2(a * x, a * y);
+			return Vector2(x * a, y * a);
 		}
 		//Scales the current object by the scaler a. The scaler go on the rhs of the object.
 		Vector2& operator*= (T a)
@@ -128,6 +146,19 @@ namespace mars
 			y *= a;
 			return *this;
 		}
+		//Divides the Vector2 by the scaler a. The scaler go on the rhs of the object.
+		Vector2 operator/ (T a) const
+		{
+			return Vector2(x / a, y / a);
+		}
+		//Divides the current object by the scaler a. The scaler go on the rhs of the object.
+		Vector2& operator/= (T a)
+		{
+			x /= a;
+			y /= a;
+			return *this;
+		}
+		
 		//Compare the Vector2 with another Vector2. If it's equal, it'll return true.
 		bool operator== (const Vector2& other) const
 		{

@@ -79,11 +79,31 @@ namespace mars
 				return other;
 		}
 
-		//Returns the length of the Vector.
+		//Returns the length of the Vector3.
 		template<std::floating_point U>
 		U Length() const
 		{
 			return static_cast<U>(sqrt(x * x + y * y + z * z));
+		}
+
+		//Returns component-wise the minimum value of the two Vector3s.
+		static Vector3 Min(const Vector3& a, const Vector3& b)
+		{
+			Vector3 result;
+			result.x = std::min<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::min<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			result.z = std::min<T>(static_cast<T>(a.z), static_cast<T>(b.z));
+			return result;
+		}
+
+		//Returns component-wise the maximum value of the two Vector3s.
+		static Vector3 Max(const Vector3& a, const Vector3& b)
+		{
+			Vector3 result;
+			result.x = std::max<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::max<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			result.z = std::max<T>(static_cast<T>(a.z), static_cast<T>(b.z));
+			return result;
 		}
 
 		//Linearly interpolate between two Vector3s.
@@ -137,7 +157,7 @@ namespace mars
 		//Scales the Vector3 by the scaler a. The scaler go on the rhs of the object.
 		Vector3 operator* (T a) const
 		{
-			return Vector3(a * x, a * y, a * z);
+			return Vector3(x * a, y * a, z * a);
 		}
 		//Scales the current object by the scaler a. The scaler go on the rhs of the object.
 		Vector3& operator*= (T a)
@@ -145,6 +165,19 @@ namespace mars
 			x *= a;
 			y *= a;
 			z *= a;
+			return *this;
+		}
+		//Divides the Vector3 by the scaler a. The scaler go on the rhs of the object.
+		Vector3 operator/ (T a) const
+		{
+			return Vector3(x / a, y / a , z / a);
+		}
+		//Divides the current object by the scaler a. The scaler go on the rhs of the object.
+		Vector3& operator/= (T a)
+		{
+			x /= a;
+			y /= a;
+			z /= a;
 			return *this;
 		}
 

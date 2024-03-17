@@ -64,13 +64,34 @@ namespace mars
 				return other;
 		}
 
-		//Returns the length of the Vector.
+		//Returns the length of the Vector4.
 		template<std::floating_point U>
 		U Length() const
 		{
 			return static_cast<U>(sqrt(x * x + y * y + z * z + w * w));
 		}
 
+		//Returns component-wise the minimum value of the two Vector4s.
+		static Vector4 Min(const Vector4& a, const Vector4& b)
+		{
+			Vector4 result;
+			result.x = std::min<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::min<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			result.z = std::min<T>(static_cast<T>(a.z), static_cast<T>(b.z));
+			result.w = std::min<T>(static_cast<T>(a.w), static_cast<T>(b.w));
+			return result;
+		}
+
+		//Returns component-wise the maximum value of the two Vector4s.
+		static Vector4 Max(const Vector4& a, const Vector4& b)
+		{
+			Vector4 result;
+			result.x = std::max<T>(static_cast<T>(a.x), static_cast<T>(b.x));
+			result.y = std::max<T>(static_cast<T>(a.y), static_cast<T>(b.y));
+			result.z = std::max<T>(static_cast<T>(a.z), static_cast<T>(b.z));
+			result.w = std::max<T>(static_cast<T>(a.w), static_cast<T>(b.w));
+			return result;
+		}
 
 		//Linearly interpolate between two Vector4s.
 		template<std::floating_point U>
@@ -112,7 +133,7 @@ namespace mars
 		//Scales the Vector4 by the scaler a. The scaler go on the rhs of the object.
 		Vector4 operator* (T a) const
 		{
-			return Vector4(a * x, a * y, a * z, a * w);
+			return Vector4(x * a, y * a, z * a, w * a);
 		}
 		//Scales the current object by the scaler a. The scaler go on the rhs of the object.
 		Vector4& operator*= (T a)
@@ -121,6 +142,20 @@ namespace mars
 			y *= a;
 			z *= a;
 			w *= a;
+			return *this;
+		}
+		//Divides the Vector4 by the scaler a. The scaler go on the rhs of the object.
+		Vector4 operator/ (T a) const
+		{
+			return Vector4(x / a, y / a, z / a, w / a);
+		}
+		//Divides the current object by the scaler a. The scaler go on the rhs of the object.
+		Vector4& operator/= (T a)
+		{
+			x /= a;
+			y /= a;
+			z /= a;
+			w /= a;
 			return *this;
 		}
 
