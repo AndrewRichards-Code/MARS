@@ -116,9 +116,7 @@ namespace mars
 		{
 			if (reverseZ)
 			{
-				const float temp = zNear;
-				zNear = zFar;
-				zFar = temp;
+				std::swap<float>(zNear, zFar);
 			}
 
 			T A = 0, B = 0, C = 0, X = 0, Y = 0, Z = 0;
@@ -136,34 +134,31 @@ namespace mars
 				C = static_cast<T>(1) / static_cast<T>(zFar - zNear);
 				Z = static_cast<T>(-zNear) * C;
 			}
+
 			return Matrix4(
-				A, 0, 0, 0,
-				0, B, 0, 0,
-				0, 0, C, 0,
-				X, Y, Z, 1);
+				A, 0, 0, X,
+				0, B, 0, Y,
+				0, 0, C, Z,
+				0, 0, 0, 1);
 		}
 
 		//Constructs a perspective matrix (Matrix4). Input fov is in radians.
 		//For Normalised Device Co-ordinates of X: -1 to 1, Y: -1 to 1 and Z: 0 to 1 in a Left-Handed system. Options for Reverse Z and Right-Handed system.
 		//https://www.gamedev.net/tutorials/programming/graphics/perspective-projections-in-lh-and-rh-systems-r3598/ //Handed-ness.
 		//https://github.com/sebbbi/rust_test/commit/d64119ce22a6a4972e97b8566e3bbd221123fcbb //Reverse Z.
+		//https://learn.microsoft.com/en-us/windows/win32/api/directxmath/nf-directxmath-xmmatrixperspectivefovrh
 		static Matrix4 Perspective(double fov, float aspectRatio, float zNear, float zFar, bool reverseZ = false, bool rightHanded = false)
 		{
-
-			T A = 0, B = 0, C = 0, D = 0, E = 0;
-			A = static_cast<T>(1) / static_cast<T>(aspectRatio * static_cast<float>(tan(fov / 2.0)));
-			B = static_cast<T>(1) / static_cast<T>(static_cast<float>(tan(fov / 2)));
-			D = rightHanded ? static_cast<T>(-1) : static_cast<T>(1);
 			if (reverseZ)
 			{
-				C = static_cast<T>((-zNear) / (zFar - zNear));
-				E = (rightHanded ? static_cast<T>(zFar) : static_cast<T>(-zFar)) * C;
+				std::swap<float>(zNear, zFar);
 			}
-			else
-			{
-				C = static_cast<T>((zFar) / (zFar - zNear));
-				E = (rightHanded ? static_cast<T>(zNear) : static_cast<T>(-zNear)) * C;
-			}
+
+			T A = static_cast<T>(1) / static_cast<T>(aspectRatio * static_cast<float>(tan(fov / 2.0)));
+			T B = static_cast<T>(1) / static_cast<T>(static_cast<float>(tan(fov / 2)));
+			T C = static_cast<T>((zFar) / (zFar - zNear));
+			T D = rightHanded ? static_cast<T>(-1) : static_cast<T>(1);
+			T E = static_cast<T>(zNear) * -D * C;
 
 			return Matrix4(
 				A, 0, 0, 0,
@@ -187,22 +182,18 @@ namespace mars
 			const double tanWidth = tanRight - tanLeft;
 			const double tanHeight = tanUp - tanDown;
 
-			T A = 0, B = 0, C = 0, D = 0, E = 0, X = 0, Y = 0;
-			A = static_cast<T>(2) / static_cast<T>(tanWidth);
-			B = static_cast<T>(2) / static_cast<T>(tanHeight);
-			X = static_cast<T>((tanRight + tanLeft) / tanWidth);
-			Y = static_cast<T>((tanUp + tanDown) / tanHeight);
-			D = rightHanded ? static_cast<T>(-1) : static_cast<T>(1);
 			if (reverseZ)
 			{
-				C = D * static_cast<T>((-zNear) / (zFar - zNear));
-				E = (rightHanded ? static_cast<T>(zFar) : static_cast<T>(-zFar)) * C;
+				std::swap<float>(zNear, zFar);
 			}
-			else
-			{
-				C = D * static_cast<T>((zFar) / (zFar - zNear));
-				E = (rightHanded ? static_cast<T>(zNear) : static_cast<T>(-zNear)) * C;
-			}
+
+			T A = static_cast<T>(2) / static_cast<T>(tanWidth);
+			T B = static_cast<T>(2) / static_cast<T>(tanHeight);
+			T X = static_cast<T>((tanRight + tanLeft) / tanWidth);
+			T Y = static_cast<T>((tanUp + tanDown) / tanHeight);
+			T C = static_cast<T>((zFar) / (zFar - zNear));
+			T D = rightHanded ? static_cast<T>(-1) : static_cast<T>(1);
+			T E = static_cast<T>(zNear) * -D * C;
 
 			return Matrix4(
 				A, 0, X, 0,
